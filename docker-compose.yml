@@ -1,31 +1,25 @@
-version: '3.7'
-
 services:
-
   ranger-admin:
-    image: ghcr.io/takezoe/ranger-docker/ranger-admin:v2.4.0
-    # build:
-    #   context: ./ranger-admin
-    #   dockerfile: Dockerfile
+    # image: ghcr.io/takezoe/ranger-docker/ranger-admin:v2.4.0
+    build:
+      context: ./ranger-admin
+      dockerfile: Dockerfile
     container_name: ranger-admin
     ports:
       - 6080:6080
     depends_on:
-      - ranger-mysql
+      - ranger-db
       - ranger-solr
 
-  ranger-mysql:
-    image: mysql:8.0.33
-    container_name: ranger-mysql
+  ranger-db:
+    image: postgres
+    container_name: ranger-db
     ports:
-      - 3306:3306
-    volumes:
-      - ./ranger-mysql:/etc/mysql/conf.d
+      - 5432:5432
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: rangeradmin
-      MYSQL_PASSWORD: rangeradmin
-      MYSQL_DATABASE: ranger
+      POSTGRES_USER: rangeradmin
+      POSTGRES_PASSWORD: rangeradmin
+      POSTGRES_DB: ranger
 
   ranger-solr:
     image: solr:8.11.2
