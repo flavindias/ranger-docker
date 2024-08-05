@@ -4,7 +4,6 @@ LABEL version=2.4.0
 
 ARG RANGER_VERSION=2.4.0
 ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar /opt
-# ADD https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.26/mysql-connector-java-8.0.26.jar /opt
 
 ADD https://ftp.unicamp.br/pub/apache/ranger/${RANGER_VERSION}/apache-ranger-${RANGER_VERSION}.tar.gz /opt
 

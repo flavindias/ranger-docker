@@ -1,6 +1,17 @@
+volumes:
+  ranger-db:
+  ranger-solr:
 services:
   ranger-admin:
     # image: ghcr.io/takezoe/ranger-docker/ranger-admin:v2.4.0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ranger-admin.rule=Host(`ranger.flavindias.com.br`)"
+      - "traefik.http.services.ranger-admin.loadbalancer.server.port=6080"
+      - "traefik.http.routers.ranger-admin.entrypoints=web,websecure"
+      - "traefik.http.routers.ranger-admin.middlewares=redirect-to-https"
+      - "traefik.http.routers.ranger-admin-secure.tls=true"
+      - "traefik.http.routers.ranger-admin-secure.tls.certresolver=letsencrypt"
     build:
       context: ./ranger-admin
       dockerfile: Dockerfile
@@ -14,6 +25,8 @@ services:
   ranger-db:
     image: postgres
     container_name: ranger-db
+    volumes:
+      - ranger-db:/var/lib/postgresql
     ports:
       - 5432:5432
     environment:
@@ -28,7 +41,7 @@ services:
     ports:
       - 8983:8983
     volumes:
-      - ./ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
+      - ranger-solr:/opt/solr/server/solr/configsets/ranger_audits/conf
     entrypoint:
       - solr-precreate
       - ranger_audits
