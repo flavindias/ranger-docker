@@ -30,10 +30,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_ROOT_PASSWORD: postgres
-      POSTGRES_USER: rangeradmin
-      POSTGRES_PASSWORD: rangeradmin
-      POSTGRES_DB: ranger
+      POSTGRES_PASSWORD: postgres
 
   ranger-solr:
     image: solr:8.11.2
