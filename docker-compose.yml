@@ -5,13 +5,15 @@ services:
   ranger-admin:
     # image: ghcr.io/takezoe/ranger-docker/ranger-admin:v2.4.0
     labels:
+      # Frontend
       - "traefik.enable=true"
       - "traefik.http.routers.ranger-admin.rule=Host(`ranger.flavindias.com.br`)"
-      - "traefik.http.services.ranger-admin.loadbalancer.server.port=6080"
       - "traefik.http.routers.ranger-admin.entrypoints=web,websecure"
+      - "traefik.http.services.ranger-admin.loadbalancer.server.port=6080"
       - "traefik.http.routers.ranger-admin.middlewares=redirect-to-https"
-      - "traefik.http.routers.ranger-admin-secure.tls=true"
-      - "traefik.http.routers.ranger-admin-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ranger-admin.service=ranger-admin"
+      - "traefik.http.routers.ranger-admin.tls=true"
+      - "traefik.http.routers.ranger-admin.tls.certresolver=leresolver"
     build:
       context: ./ranger-admin
       dockerfile: Dockerfile
