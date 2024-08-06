@@ -16,6 +16,7 @@ services:
       context: ./ranger-admin
       dockerfile: Dockerfile
     container_name: ranger-admin
+    restart: always
     expose:
       - 6080
     depends_on:
@@ -26,6 +27,7 @@ services:
     image: postgres
     hostname: ranger-db
     container_name: ranger-db
+    restart: always
     volumes:
       - ranger-db:/var/lib/postgresql
     expose:
@@ -36,6 +38,7 @@ services:
   ranger-solr:
     image: solr:8.11.2
     container_name: ranger-solr
+    restart: always
     expose:
       - 8983
     volumes:
