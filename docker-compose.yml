@@ -1,6 +1,11 @@
 volumes:
   ranger-db:
   ranger-solr:
+
+networks:
+  ranger:
+    external: true
+
 services:
   ranger-admin:
     # image: ghcr.io/takezoe/ranger-docker/ranger-admin:v2.4.0
@@ -19,6 +24,8 @@ services:
       dockerfile: Dockerfile
     container_name: ranger-admin
     restart: always
+    networks:
+      - ranger
     expose:
       - 6080
     depends_on:
@@ -30,6 +37,8 @@ services:
     hostname: ranger-db
     container_name: ranger-db
     restart: always
+    networks:
+      - ranger
     volumes:
       - ranger-db:/var/lib/postgresql
     expose:
@@ -41,6 +50,8 @@ services:
     image: solr:8.11.2
     container_name: ranger-solr
     restart: always
+    networks:
+      - ranger
     expose:
       - 8983
     volumes:
