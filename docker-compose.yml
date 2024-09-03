@@ -3,6 +3,8 @@ volumes:
   ranger-solr:
 
 networks:
+  traefik:
+    external: true
   ranger:
     external: true
 
@@ -26,6 +28,7 @@ services:
     restart: always
     networks:
       - ranger
+      - traefik
     expose:
       - 6080
     depends_on:
